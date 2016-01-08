@@ -37,14 +37,14 @@ median(act_day$steps, na.rm=T)
 As shown in the code above, the mean total number of steps taken per day is `r round(mean(act_day$steps, na.rm=T),0)` and the median total number of steps taken per day is `r median(act_day$steps, na.rm=T)`. The histogram of the distribution is shown below.
 
 
-```{r echo=TRUE, tidy=TRUE}
+```{r Histogram of Total Steps, echo=TRUE, tidy=TRUE}
 hist(act_day$steps, main="Total Steps Taken Per Day", col="blue", xlab="Number of Steps")
 ```
 
 #3. What is the average daily activity pattern?
 On a daily basis, there is large variation of steps taken depending on the time of the day. As shown in the plot below.
 
-```{r echo=TRUE, tidy=TRUE}
+```{r Interval Plot, echo=TRUE, tidy=TRUE}
 act_int <- aggregate(activity$steps, by=list(activity$interval), FUN=sum, na.rm=T)
 colnames(act_int) <- c("Interval", "Steps")
 with(act_int, plot(Steps~Interval, type="l", lwd=3, col="green", main="Steps Taken by Interval"))
@@ -80,7 +80,7 @@ for(i in 1:length(activity_no_NA$steps)){
 
 The distribution can be observed in the histogram below.
 
-```{r echo=TRUE, tidy=TRUE}
+```{r Histogram of No NA, echo=TRUE, tidy=TRUE}
 total <- aggregate(activity_no_NA$steps, by=list(activity$date), FUN=sum)
 colnames(total) <- c("date", "steps")
 hist(total$steps, main="Total Steps Taken Per Day", xlab="Number of Steps", col="red")
@@ -94,7 +94,7 @@ The mean of the total number of steps taken per day is now `r round(mean(total$s
 
 The below code creates a new factor variable to separate the effects of weekdays and weekends. The difference between weekdays and weekends can be seen in the plot below.
 
-```{r echo=TRUE, tidy=TRUE}
+```{r Weekday vs Weekend, echo=TRUE, tidy=TRUE}
 for(i in 1:length(activity_no_NA$date)){
   if(weekdays(as.Date(activity_no_NA$date[i])) == "Saturday"){
     activity_no_NA$weekday[i] <- "weekend"
@@ -119,3 +119,6 @@ ggplot(act_int_avg, aes(x=interval, y=average)) +
   ggtitle("Average Number of Steps by Interval") +
   theme(plot.title=element_text(size=20, face="bold", vjust=2))
 ```
+
+library(knitr)
+knit2html("PA1 Submission.Rmd", "PA1 Submission.html")
